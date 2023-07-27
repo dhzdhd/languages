@@ -28,7 +28,7 @@ d = 3
 
 - Top level variables can be defined
 - Kotlin does type inference in var declarations
-- ![[kt_types.png]]
+- ![[./images/kt_types.png]]
 
 ## Strings
 
