@@ -38,3 +38,11 @@
 [Code](./code/form.php)
 
 - Any form element will automatically be available to your PHP scripts.
+- `htmlspecialchars()` makes sure any characters that are special in html are properly encoded so people can't inject HTML tags or Javascript into your page.
+
+---
+
+## PHP tags
+
+- When PHP parses a file, it looks for opening and closing tags, which are `<?php and ?>` or `<?= and ?>` or `<? and ?>` (not recommended for compatibility) which tell PHP to start and stop interpreting the code between them.
+- If a file contains only PHP code, it is preferable to omit the PHP closing tag at the end of the file. This prevents accidental whitespace or new lines being added after the PHP closing tag.
