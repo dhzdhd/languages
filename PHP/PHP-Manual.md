@@ -46,3 +46,65 @@
 
 - When PHP parses a file, it looks for opening and closing tags, which are `<?php and ?>` or `<?= and ?>` or `<? and ?>` (not recommended for compatibility) which tell PHP to start and stop interpreting the code between them.
 - If a file contains only PHP code, it is preferable to omit the PHP closing tag at the end of the file. This prevents accidental whitespace or new lines being added after the PHP closing tag.
+
+## HTML Escaping
+
+```php
+<?php if ($expression == true): ?>
+  This will show if the expression is true.
+<?php else: ?>
+  Otherwise this will show.
+<?php endif; ?>
+```
+
+- PHP will skip the blocks where the condition is not met, even though they are outside of the PHP open/close tags
+- The PHP parser doesn't care that it's in the middle of an opening tag, and doesn't require that it be closed. It also doesn't care that after the closing ?> tag is the end of the HTML opening tag.
+
+## Comments
+
+```php
+<?php  
+  
+//======================================================================  
+// CATEGORY LARGE FONT  
+//======================================================================  
+  
+//-----------------------------------------------------  
+// Sub-Category Smaller Font  
+//-----------------------------------------------------  
+  
+/* Title Here Notice the First Letters are Capitalized */  
+  
+# Option 1  
+# Option 2  
+# Option 3  
+  
+/*  
+* This is a detailed explanation  
+* of something that should require  
+* several paragraphs of information.  
+*/  
+  
+// This is a single line quote.  
+?>
+```
+
+- As of PHP 8, single line comments starting exactly with `#[` have a special meaning: they are treated as "attributes", and they must respect the expected syntax
+
+## Types
+
+```php
+
+```
+
+- PHP is dynamically typed
+- Types
+	- null
+	- bool
+	- int
+	- float
+	- string
+	- array
+	- object
+	- callable
+	- resource
