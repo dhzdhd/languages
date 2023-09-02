@@ -38,7 +38,7 @@
 [Code](./code/form.php)
 
 - Any form element will automatically be available to your PHP scripts.
-- `htmlspecialchars()` makes sure any characters that are special in html are properly encoded so people can't inject HTML tags or Javascript into your page.
+- `htmlspecialchars()` makes sure any characters that are special in html are properly encoded so people can't inject HTML tags or JavaScript into your page.
 
 ---
 
@@ -94,7 +94,26 @@
 ## Types
 
 ```php
+# Types
+echo get_debug_type($a_bool), "\n";
+if (is_int($an_int)) {  
+	$an_int += 4;  
+}  
+var_dump($an_int); # int(16)
 
+# Type declarations
+function a(bool $param): bool|int {}
+function array_baz(array &$param): ?T # Can be T|null too
+{  
+$param = 1;  
+}
+
+# Strict typing
+declare(strict_types=1);
+
+# Various types
+$a = NULL;
+$b = true;
 ```
 
 - PHP is dynamically typed
@@ -108,3 +127,15 @@
 	- object
 	- callable
 	- resource
+- Type system
+	- PHP uses a nominal type system with a strong behavioural subtyping relation. The subtyping relation is checked at compile time whereas the verification of types is dynamically checked at run time.
+	- It is possible to combine simple types into composite types. PHP allows types to be combined in the following ways:
+		- An intersection `&` type accepts values which satisfies multiple class-type declarations, rather than a single one.
+		- A union `|` type accepts values of multiple different types, rather than a single one.
+	- PHP does not support user-defined type aliases.
+- Type declarations
+	- We statically type some aspect of the language via the use of type declarations.
+	- By default, PHP will coerce values of the wrong type into the expected scalar type declaration if possible. In **strict mode** however, only a value corresponding exactly to the type declaration will be accepted, otherwise a `TypeError` will be thrown
+- Type juggling
+	-  If an expression/variable is used in an operation which its type does not support, PHP will attempt to type juggle the value into a type that supports the operation
+
