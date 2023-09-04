@@ -114,14 +114,27 @@ declare(strict_types=1);
 # Various types
 $a = NULL;
 $b = true;
+$c = (bool) 2.3;
+$a = 0o123; // octal
+$a = 0x1A; // hexadecimal  
+$a = 0b11111111; // binary
+$a = intval(0.2)
 ```
 
 - PHP is dynamically typed
 - Types
 	- null
 	- bool
+		- `"0"` is considered to be a false value
+		- `NAN` is a true value
+		- Interestingly, `OR` has lower precedence than `=` but `||` has higher
+		- Use strict equality `===` when possible
 	- int
+		- `0o` for octal, `0x` for hexadecimal, `0b` for binary
+		- The size of an int is platform-dependent
+		- If PHP encounters a number beyond the bounds of the int type, it will be interpreted as a float instead
 	- float
+		- Never trust floating number results to the last digit, and do not compare floating point numbers directly for equality.
 	- string
 	- array
 	- object
