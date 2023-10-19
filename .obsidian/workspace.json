@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "PHP/PHP-Manual.md",
+                "file": "Haskell/LearnYouAHaskell-Book.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "PHP/PHP-Manual.md",
+                "file": "Haskell/LearnYouAHaskell-Book.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "PHP/PHP-Manual.md",
+                "file": "Haskell/LearnYouAHaskell-Book.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "PHP/PHP-Manual.md"
+                "file": "Haskell/LearnYouAHaskell-Book.md"
               }
             }
           }
@@ -146,8 +146,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "1872c9deb1c72b69",
+  "active": "b223e7c80d82cdc5",
   "lastOpenFiles": [
+    "PHP/PHP-Manual.md",
+    "Kotlin/Kotlin.md",
+    "Haskell/LearnYouAHaskell-Book.md",
+    "Haskell",
+    "Julia.md",
     "Kotlin.md",
     "Lua.md",
     "PHP/code/action.php",
@@ -157,12 +162,10 @@
     "PHP/code/main.php",
     "PHP/code",
     "PHP/main.php",
-    "PHP/PHP-Manual.md",
     "PHP.md",
     "PHP/PHP.md",
     "PHP",
     "R.md",
-    "Julia.md",
     "images/kt_collections.png",
     "images/kt_types.png",
     "images"
