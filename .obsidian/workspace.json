@@ -128,6 +128,16 @@
                 "file": "Haskell/LearnYouAHaskell-Book.md"
               }
             }
+          },
+          {
+            "id": "5fc9759825b71b97",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency"
+              }
+            }
           }
         ]
       }
@@ -146,7 +156,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b223e7c80d82cdc5",
+  "active": "1872c9deb1c72b69",
   "lastOpenFiles": [
     "PHP/PHP-Manual.md",
     "Kotlin/Kotlin.md",

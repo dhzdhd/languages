@@ -179,5 +179,126 @@ Floating  -- double & float
 ## Pattern matching
 
 ```haskell
+-- Fn body pattern matching
+lucky :: (Integral a) => a -> String  
+lucky 7 = "LUCKY NUMBER SEVEN!"  
+lucky x = "Sorry, you're out of luck, pal!"
 
+factorial :: (Integral a) => a -> a  
+factorial 0 = 1  
+factorial n = n * factorial (n - 1)
+
+addVectors :: (Num a) => (a, a) -> (a, a) -> (a, a)  -- Tuple patterns
+addVectors (x1, y1) (x2, y2) = (x1 + x2, y1 + y2)
+
+head' :: [a] -> a  -- List patterns using cons
+head' [] = error "Can't call head on an empty list, dummy!"  
+head' (x:_) = x
+
+length' :: (Num b) => [a] -> b  
+length' [] = 0  
+length' (_:xs) = 1 + length' xs
+
+capital :: String -> String  
+capital "" = "Empty string, whoops!"  
+capital all@(x:xs) = all ++ " " ++ xs ++ " " ++ [x]  -- for hello - hello ello h
+
+-- Guards
+bmiTell :: (RealFloat a) => a -> String  
+bmiTell bmi  
+    | bmi <= 18.5 = "You're underweight"  
+    | bmi <= 25.0 = "You're normal."  
+    | bmi <= 30.0 = "You're fat"  
+    | otherwise   = "You're whale"
+
+-- where & let-in bindings
+foo :: Int -> Int
+foo bar = a + b
+	where 
+		a = bar * 5
+		b = bar + 2
+
+foo :: Int -> Int
+foo bar =
+	let 
+		a = bar * 5
+		b = bar + 2
+	in a + b
+[let square x = x * x; y = 5 in (square 5, square 3, square y)]
+
+calcBmis :: (RealFloat a) => [(a, a)] -> [a]  
+-- in not required due to predefined name visibility
+calcBmis xs = [bmi | (w, h) <- xs, let bmi = w / h ^ 2, bmi >= 25.0]
+
+-- case expressions
+head' :: [a] -> a  
+head' xs = case xs of [] -> error "No head for empty lists!"  
+                      (x:_) -> x
 ```
+
+- Pattern matching consists of specifying patterns to which some data should conform and then checking to see if it does and deconstructing the data according to those patterns
+- Haskell does not check for exhaustivity of patterns and hence, matches can fail
+- `_` is used to ignore a pattern
+- Patterns `(@)` are a handy way of breaking something up according to a pattern and binding it to names whilst still keeping a reference to the whole thing.
+- Guards are boolean exprs and are indicated by pipes that follow a function's name and params
+- Bindings
+	- Names defined in `where` are only visible to that function
+	- Can use pattern matching in `where` name declarations
+	- `let-in` is more constrained than `where` but lets you bind variables anywhere unlike `where`.
+	- `let-in` is an expression but `where` is a syntactic construct
+- Function pattern matching is syntactic sugar for case exprs
+
+## Recursion
+
+```haskell
+maximum' :: (Ord a) => [a] -> a  
+maximum' [] = error "maximum of empty list"  
+maximum' [x] = x  
+-- maximum' (x:xs)   
+--    | x > maxTail = x  
+--    | otherwise = maxTail  
+--    where maxTail = maximum' xs
+maximum' (x:xs) = max x (maximum' xs)
+```
+
+- Recursion is a way of defining functions in which the function is applied inside its own definition. Due to the lack of loops in Haskell, we use recursion.
+- Define a terminating edge/base case and work your way through to find the general case.
+
+## Higher order functions
+
+```haskell
+-- Currying
+max 4 5
+(max 4) 5
+
+compareWithHundred x = compare 100 x
+compareWithHundred = compare 100
+
+divideByTen = (/10)  -- Infix curry (does x / 10)
+
+-- Higher order fns
+applyTwice :: (a -> a) -> a -> a  
+applyTwice f x = f (f x)
+
+zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c]  
+zipWith' _ [] _ = []  
+zipWith' _ _ [] = []  
+zipWith' f (x:xs) (y:ys) = f x y : zipWith' f xs ys
+
+map :: (a -> b) -> [a] -> [b]  
+map _ [] = []  
+map f (x:xs) = f x : map f xs
+
+filter :: (a -> Bool) -> [a] -> [a]  
+filter _ [] = []  
+filter p (x:xs)   
+    | p x       = x : filter p xs  
+    | otherwise = filter p xs
+```
+
+- Functions that can take functions as parameters and return functions as return values are called higher order functions.
+- Every fn in Haskell takes only one parameter. The functions that accept more are curried.
+- `max :: (Ord a) => a -> a -> a` can be read as `max :: (Ord a) => a -> (a -> a)` which explains why type declarations are separated by arrows.
+- Infix functions can be partially applied by using sections - surrounding it with parentheses
+	- `(-5)` is an exception is just negative 5
+- Function types need a mandatory parentheses because `->` is naturally right associative
