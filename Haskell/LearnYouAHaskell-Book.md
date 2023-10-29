@@ -11,6 +11,7 @@
 
 - `:t` - typeof variable
 - `:l` - load file
+- `:m + Data.List Data.Map Data.Set` - load module
 
 ## Simple operations
 
@@ -155,7 +156,7 @@ head :: [a] -> a
 	- Generic types usually represented by lowercase alphabets
 	- Functions that have type variables are called polymorphic functions
 
-## Typeclasses 1
+## Typeclasses & More types
 
 ```haskell
 -- Defn
@@ -171,10 +172,33 @@ Bounded  -- Have upper and lower bound
 Num  -- Numeric typeclass, members act like numbers (take in ints and floats)
 fromIntegral :: (Num b, Integral a) => a -> b  -- Num but only integral numbers
 Floating  -- double & float
+
+-- Algebraic data types (ADT)
+data Bool = False | True  -- Defining a new type
+
+data Shape = Circle Float | Rectangle Float Float deriving (Show)  -- makes part of Show typeclass
+surface :: Shape -> Float  
+surface (Circle r) = pi * r ^ 2  
+surface (Rectangle x1 y1) = (abs $ x1 - y1) * (abs $ y1 - x1)
+
+-- Records
+data Person = Person { firstName :: String  
+                     , lastName :: String  
+                     , age :: Int  
+                     , height :: Float  
+                     } deriving (Show)
 ```
 
-- Sort of interface that defines behaviour. If a type is a part of a typeclass, that means that it supports and implements the behavior the typeclass describes.
+- Sort of interface that defines behaviour. If a type is a part of a typeclass, that means that it supports and implements the behaviour the typeclass describes.
 - `=>` is a **class constraint**. The type of values must be a member of the typeclass
+- Creating types
+	- We use the `data` keyword to create types.
+	- `data A = B`
+	- Here, `A` is the type name and `B` is called a value constructor. Both are capital
+	- Value constructors can have fields which can contain values
+	- These fields are actually params to the value constructors which are functions 
+	- We can pattern match value constructors but not use them as types.
+	- It's common to use the same name as the type if there's only one value constructor
 
 ## Pattern matching
 
@@ -294,6 +318,38 @@ filter _ [] = []  
 filter p (x:xs)   
     | p x       = x : filter p xs  
     | otherwise = filter p xs
+
+takeWhile (<10000) [1..]  -- Takes nums while predicate is true
+
+-- Lambdas
+zipWith (\a b -> (a * 30 + 3) / b) [5,4,3,2,1] [1,2,3,4,5]
+map (\(a,b) -> a + b) [(1,2),(3,5),(6,3),(2,6),(2,5)]  -- With pattern matching
+
+-- Folds
+sum' :: (Num a) => [a] -> a  
+-- sum' xs = foldl (\acc x -> acc + x) 0 xs
+sum' = foldl (+) 0
+
+elem' :: (Eq a) => a -> [a] -> Bool  
+elem' y ys = foldl (\acc x -> if x == y then True else acc) False ys
+
+map' :: (a -> b) -> [a] -> [b]  
+map' f xs = foldr (\x acc -> f x : acc) [] xs  -- Left fold requires ++ which is costly
+
+-- Function application
+($) :: (a -> b) -> a -> b  
+f $ x = f x
+
+map ($ 3) [(4+), (10*), (^2), sqrt]
+
+-- Function composition
+(.) :: (b -> c) -> (a -> b) -> a -> c  
+f . g = \x -> f (g x)
+
+map (negate . abs) [5,-3,-6,7,-3,2,-19,24]
+map (negate . sum . tail) [[1..5],[3..6],[1..7]]
+(sum . replicate 5 . max 6.7) 8.9  -- Multiple param composition
+fn = ceiling . negate . tan . cos . max 50  -- Point free style
 ```
 
 - Functions that can take functions as parameters and return functions as return values are called higher order functions.
@@ -302,3 +358,69 @@ filter p (x:xs)   
 - Infix functions can be partially applied by using sections - surrounding it with parentheses
 	- `(-5)` is an exception is just negative 5
 - Function types need a mandatory parentheses because `->` is naturally right associative
+- Lambdas are anonymous functions usually to pass them to a higher order function. They are expressions. Lambdas are normally surrounded by parentheses unless we mean for them to extend all the way to the right.
+- A fold takes a binary function, a starting value (the accumulator) and a list to fold up. The resultant acc is returned. `foldl` starts from the left and `foldr` from the right.
+- `scanl` & `scanr` are similar but report intermediate values in a list instead of the acc.
+- Function application or `$` has the lowest precedence and right associative.
+
+## Modules
+
+```haskell
+-- Imports
+import Data.List
+
+numUniques :: (Eq a) => [a] -> Int  
+numUniques = length . nub  -- nub exists in Data.List and gets unique elements
+
+import Data.List (nub, sort)
+import Data.List hiding (nub)
+import qualified Data.Map as M  -- Qualified imports (M.foo)
+
+-- Data.List
+intersperse '.' "MONKEY"  -- "M.O.N.K.E.Y"
+intercalate [0,0,0] [[1,2,3],[4,5,6],[7,8,9]]  -- [1,2,3,0,0,0,4,5,6,0,0,0,7,8,9]
+transpose [[1,2,3],[4,5,6],[7,8,9]]
+concat [[3,4,5],[2,3,4],[2,1,1]]  -- [3,4,5,2,3,4,2,1,1]
+and $ map (==4) [4,4,4,3,4]  -- False
+or $ map (==4) [2,3,4,5,6,1]  -- True
+any (==4) [2,3,5,6,1,4]
+any (==4) [2,3,5,6,1,4]
+iterate (*2) 1  -- Infinite multiples
+group [1,1,2,2,2,2,3,3,2,2,2,5,6,7]  -- [[1,1],[2,2,2,2],[3,3],[2,2,2],[5],[6],[7]]
+find (>4) [1,2,3,4,5,6]  -- Just 5
+lines "first line\nsecond line"  -- ["first line","second line"]
+[1..10] \\ [2,5,9]  -- [1,3,4,6,7,8,10] (List difference)
+groupBy ((==) `on` (> 0)) values  -- Group by equality on condition - greater than zero
+
+-- Maps / Association lists
+phoneBook =   
+    [("betty","555-2938")  
+    ,("bonnie","452-2928")  
+    ,("patsy","493-2928")  
+    ]
+
+findKey :: (Eq k) => k -> [(k,v)] -> Maybe v  
+findKey key = foldr (\(k,v) acc -> if key == k then Just v else acc) Nothing
+
+Map.null $ Map.fromList [(2,3),(5,5)]
+Map.insert 5 600 . Map.insert 4 200 . Map.insert 3 100 $ Map.empty
+
+-- Creating modules
+module Geometry  
+( Point(..)  -- Exported all constructors of a datatype
+, Shape(Circle)
+, sphereVolume  -- Exported functions
+, sphereArea
+) where
+```
+
+- A Haskell module is a collection of related functions, types and typeclasses.
+- A Haskell program is a collection of modules where the main module loads up the other modules and then uses the functions defined in them.
+- The `Prelude` module is imported by default.
+- `import` has to be at the top of the file, before any fn definition
+- `foldl'` and `foldl1'` are stricter versions of their respective lazy versions. When using lazy folds on really big lists, you might often get a stack overflow error. The culprit for that is because the accumulator value isn't actually updated as the folding happens. It makes a promise that it will compute its value when asked to actually produce the result (also called a thunk).
+- Maps need keys to be orderable as they are internally represented by trees.
+- All elements of a set are unique and ordered.
+- Creating modules
+	- The module name is the file name. Ex: `Foo`
+	- If a module is present in a folder, it's a submodule. Ex: Foo/Bar implies `Foo.Bar`
