@@ -159,10 +159,10 @@ head :: [a] -> a
 ## Typeclasses & More types
 
 ```haskell
--- Defn
+-- Typeclass defn
 (==) :: (Eq a) => a -> a -> Bool  -- Eq or equality typeclass
 
--- Examples
+-- Typeclass examples
 (==) :: (Eq a) => a -> a -> Bool  -- Equality, members implement == & /=
 (>) :: (Ord a) => a -> a -> Bool  -- Ordering, members implement >,<,>=,<=
 show :: (Show a) => a -> String  -- Shown as strings
@@ -185,8 +185,25 @@ surface (Rectangle x1 y1) = (abs $ x1 - y1) * (abs $ y1 - x1)
 data Person = Person { firstName :: String  
                      , lastName :: String  
                      , age :: Int  
-                     , height :: Float  
                      } deriving (Show)
+Person {firstName="", lastName="", age=5}
+
+-- Type parameters
+data Maybe a = Nothing | Just a
+data (Ord k) => Map k v  -- Bad practice
+
+-- Deriving typeclasses
+data Person = Person { firstName :: String  
+                     , lastName :: String  
+                     , age :: Int  
+                     } deriving (Eq)  -- All fields of type must be constrained by Eq
+data Day = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday   
+           deriving (Eq, Ord, Show, Read, Bounded, Enum)  -- Enum applied for successor & predecessor and Bounded for max, min bounds
+
+-- Type synonyms
+type String = [Char]  -- type alias, not a new type
+type AssocList k v = [(k,v)]  -- Parameterized
+type IntMap = Map Int  -- Partially applied (v)
 ```
 
 - Sort of interface that defines behaviour. If a type is a part of a typeclass, that means that it supports and implements the behaviour the typeclass describes.
@@ -199,6 +216,14 @@ data Person = Person { firstName :: String  
 	- These fields are actually params to the value constructors which are functions 
 	- We can pattern match value constructors but not use them as types.
 	- It's common to use the same name as the type if there's only one value constructor
+- Records
+	- Creates functions that can lookup fields in the type
+	- Order does not matter
+- Type parameters
+	- Type constructors take types as parameters to produce new types. (Generics)
+	- Type constructors can contain class constraints but this is not good practice as you will have to include the constraint in functions anyways.
+- Derived types
+	- Ex: When we derive the `Eq` instance for a type and then try to compare two values of that type with `==` or `/=`, Haskell will see if the value constructors match and then check data inside too
 
 ## Pattern matching
 
