@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Haskell/LearnYouAHaskell-Book.md",
+                "file": "Gleam/The-Gleam-Book.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Haskell/LearnYouAHaskell-Book.md",
+                "file": "Gleam/The-Gleam-Book.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Haskell/LearnYouAHaskell-Book.md",
+                "file": "Gleam/The-Gleam-Book.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Haskell/LearnYouAHaskell-Book.md"
+                "file": "Gleam/The-Gleam-Book.md"
               }
             }
           },
@@ -158,9 +158,11 @@
   },
   "active": "1872c9deb1c72b69",
   "lastOpenFiles": [
+    "Haskell/LearnYouAHaskell-Book.md",
+    "Gleam/The-Gleam-Book.md",
+    "Gleam",
     "PHP/PHP-Manual.md",
     "Kotlin/Kotlin.md",
-    "Haskell/LearnYouAHaskell-Book.md",
     "Haskell",
     "Julia.md",
     "Kotlin.md",
@@ -177,7 +179,6 @@
     "PHP",
     "R.md",
     "images/kt_collections.png",
-    "images/kt_types.png",
-    "images"
+    "images/kt_types.png"
   ]
 }
