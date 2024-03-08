@@ -1,0 +1,81 @@
+---
+import type { GetStaticPaths, MarkdownInstance } from "astro";
+import "@/styles/globals.css";
+import Layout from "../layouts/Layout.astro";
+import TOC from "@components/TOC.svelte";
+import PageLink from "@components/PageLink.astro";
+import BreadcrumbNav from "@components/BreadcrumbNav.astro";
+
+const getSlug = (post: MarkdownInstance<Record<string, any>>): string => {
+  const path = post.file.split("src/posts/")[1];
+  return path.split(".md")[0];
+};
+
+const getName = (slug: string): string => {
+  const segments = slug.split("/");
+  return segments[segments.length - 1];
+};
+
+export const getStaticPaths: GetStaticPaths = (async () => {
+  const posts = await Astro.glob("../posts/**/*.md");
+
+  return posts.map((post) => {
+    const path = post.file.split("src/posts/")[1];
+    const sanitized = path.split(".md")[0];
+
+    return {
+      params: {
+        slug: sanitized,
+      },
+      props: {
+        post,
+      },
+    };
+  });
+}) satisfies GetStaticPaths;
+
+const posts = await Astro.glob("../posts/**/*.md");
+
+const { Content } = Astro.props.post as { Content: any };
+
+const post = Astro.props.post as MarkdownInstance<Record<string, any>>;
+
+const indexOfCurrent = posts.indexOf(post);
+const prev =
+  indexOfCurrent == 0 ? undefined : getSlug(posts[indexOfCurrent - 1]);
+const next =
+  indexOfCurrent == posts.length - 1
+    ? undefined
+    : getSlug(posts[indexOfCurrent + 1]);
+const headings = post.getHeadings().filter((val) => val.depth != 1);
+
+let urlSegments = decodeURI(
+  Astro.url.toString().replace(Astro.url.origin, "").trim().slice(1)
+).split("/");
+
+if (urlSegments[urlSegments.length - 1] === "") {
+  urlSegments = urlSegments.slice(0, urlSegments.length - 1);
+}
+---
+
+<Layout title="Hello">
+  <TOC client:visible data={headings} />
+  <BreadcrumbNav urlSegments={urlSegments} />
+  <article
+    class="py-5 md:px-5 prose prose-base dark:prose-invert max-w-none overflow-x-auto"
+  >
+    <Content />
+  </article>
+  <div class="md:px-5 pb-6 flex flex-row min-h-20 justify-between">
+    {
+      prev && (
+        <PageLink name={getName(prev)} link={`/${prev}`} direction="left" />
+      )
+    }
+    {
+      next && (
+        <PageLink name={getName(next)} link={`/${next}`} direction="right" />
+      )
+    }
+  </div>
+</Layout>
