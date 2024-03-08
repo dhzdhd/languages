@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "6c8a309e1276b254",
+        "id": "334f16e13f1b5e08",
         "type": "tabs",
         "children": [
           {
-            "id": "1872c9deb1c72b69",
+            "id": "649a1865cd9a749a",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Gleam/The-Gleam-Book.md",
+                "file": "Scala/Scala At Light Speed-RTJVM.md",
                 "mode": "source",
                 "source": false
               }
@@ -69,7 +69,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "c39d48aedf761605",
@@ -85,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Gleam/The-Gleam-Book.md",
+                "file": "Scala/Scala At Light Speed-RTJVM.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Gleam/The-Gleam-Book.md",
+                "file": "Scala/Scala At Light Speed-RTJVM.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Gleam/The-Gleam-Book.md"
+                "file": "Scala/Scala At Light Speed-RTJVM.md"
               }
             }
           },
@@ -135,7 +136,9 @@
             "state": {
               "type": "all-properties",
               "state": {
-                "sortOrder": "frequency"
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
               }
             }
           }
@@ -156,13 +159,17 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "1872c9deb1c72b69",
+  "active": "649a1865cd9a749a",
   "lastOpenFiles": [
+    "Scala/Scala-Book.md",
     "Haskell/LearnYouAHaskell-Book.md",
-    "Gleam/The-Gleam-Book.md",
-    "Gleam",
+    "Scala/Scala At Light Speed-RTJVM.md",
     "PHP/PHP-Manual.md",
     "Kotlin/Kotlin.md",
+    "Scala",
+    "README.md",
+    "Gleam/The-Gleam-Book.md",
+    "Gleam",
     "Haskell",
     "Julia.md",
     "Kotlin.md",
@@ -176,7 +183,6 @@
     "PHP/main.php",
     "PHP.md",
     "PHP/PHP.md",
-    "PHP",
     "R.md",
     "images/kt_collections.png",
     "images/kt_types.png"

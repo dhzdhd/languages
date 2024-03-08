@@ -123,5 +123,70 @@ case xs {
 ## Functions
 
 ```gleam
+// Defn
+pub fn add(x: Int, y: Int) -> Int {
+  x + y
+}
+pub fn twice(f: fn(t) -> t, x: t) -> t {  // Generics + fn types
+	f(f(x))
+}
+
+// Pipes
+string
+|> string_builder.from_string
+|> string_builder.reverse
+|> string_builder.to_string
+
+// Labelled args
+pub fn replace(
+  in string: String,
+  each pattern: String,
+  with replacement: String,
+) {
+  // The variables `string`, `pattern`, and `replacement` are in scope here
+}
+replace(in: "A,B,C", each: ",", with: " ")
+replace("A,B,C", ",", " ")  // Can still use positional
+
+// Anon fns
+let add = fn(x, y) { x + y }
+
+// Function capturing
+pub fn add(x, y) { x + y }
+pub fn run() {
+  let add_one = add(1, _)  // Kind of like currying ???
+  add_one(2)
+}
+
+1 |> add(_, 3)
+1 |> add(3)  // Both do the same thing
 
 ```
+
+- Named functions defined using `pub fn` and they are first class.
+- Pipe operator passes the result of one function to the arguments of another function.
+- The Gleam compiler can infer all the types of Gleam code without annotations and both annotated and unannotated code is equally safe.
+- User defined Type variables can be named anything, but the names must be lower case and may contain underscores.
+- Function capturing provides a shorthand syntax for creating anonymous functions that take one argument and call another function. The `_` is used to indicate where the argument should be passed.
+	- The pipe operator will first check to see if the left hand value could be used as the first argument to the call, e.g. `a |> b(1, 2)` would become `b(a, 1, 2)`
+	- If not it falls back to calling the result of the right hand side as a function , e.g. `b(1, 2)(a)`.
+
+## Custom types
+
+```gleam
+// Defn
+pub type Cat {  // Type name Cat
+  Cat(name: String, cuteness: Int)  // Constructor Cat with 2 fields
+}
+let cat1 = Cat(name: "Nubi", cuteness: 2001)
+let cat2 = Cat("Nubi", 2001)
+
+// Multiple constructors
+pub type Bool {
+  True(msg: String)
+  False
+}
+```
+
+- Gleam's custom types are named collections of keys and values. They do not have methods.
+- Custom types can be defined with multiple constructors, making them a way of modeling data that can be one of a few different variants. (Union in F# / Enum in rust)
