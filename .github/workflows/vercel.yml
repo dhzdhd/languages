@@ -33,7 +33,7 @@ jobs:
       #   run: mv ./.config ./ssg/src/config
 
       - name: Move markdown files
-        run: mv ./* ./ssg/src/posts/
+        run: rsync -avm --include='*.png' --include='*.jpg' --include='*.webp' --include='*.svg' --include='*.md' --include='*/' --exclude='*' "./" "./ssg/src/posts/"
 
       - name: Copy images to public/
         run: |
