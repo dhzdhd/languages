@@ -29,8 +29,8 @@ jobs:
           rm -rf ./ssg/src/posts/*
           rm -rf ./ssg/public/*
 
-      # - name: Move config files
-      #   run: mv ./.config ./ssg/src/config
+      - name: Move config files
+        run: mv ./.config ./ssg/src/config
 
       - name: Move markdown files
         run: rsync -avm --include='*.png' --include='*.jpg' --include='*.webp' --include='*.svg' --include='*.md' --include='*/' --exclude='*' "./" "./ssg/src/posts/"
