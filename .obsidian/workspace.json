@@ -69,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "c39d48aedf761605",
@@ -162,8 +161,8 @@
   "active": "649a1865cd9a749a",
   "lastOpenFiles": [
     "Scala/Scala-Book.md",
-    "Haskell/LearnYouAHaskell-Book.md",
     "Scala/Scala At Light Speed-RTJVM.md",
+    "Haskell/LearnYouAHaskell-Book.md",
     "PHP/PHP-Manual.md",
     "Kotlin/Kotlin.md",
     "Scala",
