@@ -232,6 +232,7 @@ val lst = List[Int] = List(1,2,3)  // List.apply(1,2,3)
 - Operators in Scala are methods
 - Anonymous classes create a unique class during runtime that extends the class in the definition
 - Singleton objects create a type and the only instance of that type
+	- Act like classes with static members
 	- They cannot have constructors
 	- `apply` method acts like a factory method
 - The `apply` method allows you to call that method using the class directly, i.e. invoke it like a function
