@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Scala/Scala At Light Speed-RTJVM.md",
+                "file": "PureScript/PureScript By Example-Book.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Scala/Scala At Light Speed-RTJVM.md",
+                "file": "PureScript/PureScript By Example-Book.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Scala/Scala At Light Speed-RTJVM.md",
+                "file": "PureScript/PureScript By Example-Book.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Scala/Scala At Light Speed-RTJVM.md"
+                "file": "PureScript/PureScript By Example-Book.md"
               }
             }
           },
@@ -160,9 +160,11 @@
   },
   "active": "649a1865cd9a749a",
   "lastOpenFiles": [
+    "Haskell/LearnYouAHaskell-Book.md",
     "Scala/Scala-Book.md",
     "Scala/Scala At Light Speed-RTJVM.md",
-    "Haskell/LearnYouAHaskell-Book.md",
+    "PureScript/PureScript By Example-Book.md",
+    "PureScript",
     "PHP/PHP-Manual.md",
     "Kotlin/Kotlin.md",
     "Scala",
@@ -179,7 +181,6 @@
     "PHP/code/first_page.php",
     "PHP/code/main.php",
     "PHP/code",
-    "PHP/main.php",
     "PHP.md",
     "PHP/PHP.md",
     "R.md",
