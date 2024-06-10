@@ -10,7 +10,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import ForceGraph2D from "react-force-graph-2d";
+import { useStore } from "@nanostores/react";
+import { navigate } from "astro:transitions/client";
 import type { GraphData } from "react-force-graph-2d";
+import { $linkStore } from "@/lib/stores";
 
 const ForceGraph = () => {
   const fgRef = useRef();
@@ -20,20 +23,44 @@ const ForceGraph = () => {
   const [highlightNodes, setHighlightNodes] = useState(new Set());
   const [highlightLinks, setHighlightLinks] = useState(new Set());
 
+  const rawLinks = useStore($linkStore);
+
+  const links: { source: string; target: string }[] = [];
+  for (const rawLink of rawLinks) {
+    const doc = document.createElement("html");
+    doc.innerHTML = rawLink["content"];
+    const classes = doc.getElementsByClassName("internal");
+
+    for (const rawClass of classes) {
+      const href = rawClass.getAttribute("href");
+      if (href) {
+        links.push({
+          source: rawLink["url"].split("src/posts")[1].replace(".md", ""), // TODO: Improve
+          target: href,
+        });
+      }
+    }
+  }
+
+  const nodes = [
+    ...new Set(links.flatMap((val) => [val.source, val.target])),
+  ].map((val) => {
+    const urlSegments = val.split("/");
+    const name = urlSegments[urlSegments.length - 1];
+
+    return {
+      id: val,
+      name: name,
+      url: `${window.location.origin}${val}`,
+      group: 1,
+    };
+  });
+
   useEffect(() => {
     setData(() => {
       return {
-        nodes: [
-          { id: "Myriel", group: 1 },
-          { id: "Napoleon", group: 1 },
-          { id: "Mlle.Baptistine", group: 1 },
-          { id: "Mme.Magloire", group: 1 },
-        ],
-        links: [
-          { source: "Napoleon", target: "Myriel", value: 1 },
-          { source: "Mlle.Baptistine", target: "Myriel", value: 8 },
-          { source: "Mme.Magloire", target: "Myriel", value: 10 },
-        ],
+        nodes: nodes,
+        links: links,
       };
     });
   }, []);
@@ -63,12 +90,12 @@ const ForceGraph = () => {
               ctx.beginPath();
 
               ctx.strokeStyle = highlightLinks.has(link) ? "white" : "grey";
-              ctx.lineWidth = 1 / globalScale;
+              ctx.lineWidth = 2 / globalScale;
               ctx.moveTo(link.source.x, link.source.y);
               ctx.lineTo(link.target.x, link.target.y);
               ctx.stroke();
             }}
-            linkWidth={(link) => (highlightLinks.has(link) ? 5 : 1)}
+            linkWidth={(link) => (highlightLinks.has(link) ? 5 : 2)}
             onLinkHover={(link) => {
               let newLinks = new Set();
               let newNodes = new Set();
@@ -104,6 +131,10 @@ const ForceGraph = () => {
               setHighlightLinks(newLinks);
               setHighlightNodes(newNodes);
             }}
+            onNodeClick={(node: any, event: MouseEvent) => {
+              const href = node.url;
+              navigate(href);
+            }}
             nodeCanvasObject={(node, ctx, globalScale) => {
               if (highlightNodes.has(node)) {
                 ctx.fillStyle = node.color;
@@ -115,7 +146,7 @@ const ForceGraph = () => {
               ctx.arc(node.x, node.y, 5, 0, 2 * Math.PI, false);
               ctx.fill();
 
-              const label = String(node.id);
+              const label = String(node.name);
               const fontSize = highlightNodes.has(node)
                 ? 20 / globalScale
                 : 12 / globalScale;

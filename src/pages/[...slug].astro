@@ -49,6 +49,7 @@ const next =
     : getSlug(posts[indexOfCurrent + 1]);
 const headings = post.getHeadings().filter((val) => val.depth != 1);
 
+// For TOC
 let urlSegments = decodeURI(
   Astro.url.toString().replace(Astro.url.origin, "").trim().slice(1)
 ).split("/");
