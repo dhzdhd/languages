@@ -1,5 +1,5 @@
 const config = {
-  redirects: {},
+    redirects: {},
 };
 
 export default config;
