@@ -34,7 +34,6 @@ jobs:
         run: mv ./.config ./ssg/src/config
 
       - name: Move markdown files
-        # run: mv ./${{ env.MD_FOLDER }}/* ./ssg/src/posts/
         run: |
           rsync -avm --include='*.md' --include='*/' --exclude='*' "${{ env.MD_FOLDER }}" "./ssg/src/posts/"
 
