@@ -11,8 +11,12 @@
             "id": "849be67305bacd00",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Java/Java Tutorial Series-Baeldung.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -81,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Java/Java Tutorial Series-Baeldung.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Java/Java Tutorial Series-Baeldung.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,7 +124,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Java/Java Tutorial Series-Baeldung.md"
+              }
             }
           },
           {
@@ -152,10 +160,12 @@
   },
   "active": "849be67305bacd00",
   "lastOpenFiles": [
-    "PureScript/PureScript By Example-Book.md",
-    "Haskell/LearnYouAHaskell-Book.md",
     "Scala/Scala-Book.md",
     "Scala/Scala At Light Speed-RTJVM.md",
+    "Java/Java Tutorial Series-Baeldung.md",
+    "Java",
+    "PureScript/PureScript By Example-Book.md",
+    "Haskell/LearnYouAHaskell-Book.md",
     "PureScript",
     "PHP/PHP-Manual.md",
     "Kotlin/Kotlin.md",
@@ -172,7 +182,6 @@
     "PHP/code/useful.php",
     "PHP/code/first_page.php",
     "PHP/code/main.php",
-    "PHP/code",
     "PHP.md",
     "PHP/PHP.md",
     "R.md",
