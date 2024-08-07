@@ -1,0 +1,2 @@
+lzstring
+Spire.Pdf

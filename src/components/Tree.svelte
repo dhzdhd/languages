@@ -18,10 +18,9 @@
 
   export let treeItems: TreeItem[];
 
-  let innerWidth;
+  let innerWidth: number;
 
   let visible = writable(false);
-
   $: $visible = innerWidth > 1650;
 </script>
 
@@ -30,7 +29,7 @@
 {#if $visible}
   <ul
     transition:fly={{ x: -200 }}
-    class="z-10 flex-shrink-0 fixed w-80 h-svh top-14 border-r-[1px] py-5 px-3 list-none bg-primary-foreground dark:bg-background"
+    class="z-10 flex-shrink-0 fixed w-80 h-svh top-14 border-r-[1px] overflow-y-auto py-5 px-3 list-none bg-primary-foreground dark:bg-background"
     {...$tree}
   >
     <Tree {treeItems} />

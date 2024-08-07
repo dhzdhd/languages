@@ -5,6 +5,7 @@ import Layout from "../layouts/Layout.astro";
 import TOC from "@components/TOC.svelte";
 import PageLink from "@components/PageLink.astro";
 import BreadcrumbNav from "@components/BreadcrumbNav.astro";
+import config from "@/config";
 
 const getSlug = (post: MarkdownInstance<Record<string, any>>): string => {
   const path = post.file.split("src/posts/")[1];
@@ -34,7 +35,8 @@ export const getStaticPaths: GetStaticPaths = (async () => {
   });
 }) satisfies GetStaticPaths;
 
-const posts = await Astro.glob("../posts/**/*.md");
+const rawPosts = await Astro.glob("../posts/**/*.md");
+const posts = rawPosts.filter((val) => !val.file.endsWith(".excalidraw.md"));
 
 const { Content } = Astro.props.post as { Content: any };
 
@@ -59,14 +61,14 @@ if (urlSegments[urlSegments.length - 1] === "") {
 }
 ---
 
-<Layout title="Hello">
+<Layout title={config.metadata?.title ?? "Obsidian"}>
   <TOC client:visible data={headings} />
   <div class="w-full max-w-screen-lg">
     <BreadcrumbNav urlSegments={urlSegments} />
     <article
       class="py-5 md:px-5 prose prose-base dark:prose-invert max-w-none overflow-x-auto"
     >
-      <Content />
+      <Content class="gap-0" />
     </article>
     <div class="md:px-5 pb-6 flex flex-row min-h-20 justify-between">
       {

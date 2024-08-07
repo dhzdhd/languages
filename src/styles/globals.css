@@ -29,7 +29,7 @@
 
   .dark {
     --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --foreground: 210 40% 88%;
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
@@ -74,6 +74,14 @@
     @apply bg-secondary dark:bg-background border-[1px] !important;
   }
 
+  [data-remark-code-title]+pre {
+    @apply mt-0 rounded-t-none;
+  }
+
+  [data-remark-code-title] {
+    @apply bg-accent px-4 font-bold p-0 m-0 rounded-t-lg
+  }
+
   *::-webkit-scrollbar {
     @apply w-2 h-2
   }
@@ -84,5 +92,27 @@
 
   *::-webkit-scrollbar-thumb {
     @apply bg-secondary hover:bg-foreground
+  }
+
+  code {
+    counter-reset: line;
+  }
+
+  code>[data-line]::before {
+    counter-increment: line;
+    content: counter(line);
+    display: inline-block;
+    width: 0.1rem;
+    margin-right: 0.2rem;
+    text-align: right;
+    color: gray;
+  }
+
+  code[data-line-numbers-max-digits="2"]>[data-line]::before {
+    width: 0.2rem;
+  }
+
+  code[data-line-numbers-max-digits="3"]>[data-line]::before {
+    width: 0.3rem;
   }
 }

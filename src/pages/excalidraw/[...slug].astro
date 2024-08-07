@@ -1,0 +1,32 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import config from "@/config";
+import ExcalidrawViewer from "@/components/Excalidraw";
+import fs from "node:fs/promises";
+import { glob } from "glob";
+
+export async function getStaticPaths() {
+  const paths = await glob("public/**/*.excalidraw");
+
+  return await Promise.all(
+    paths.map(async (path) => {
+      const url = new URL(`../../../${path}`, import.meta.url);
+      const json = await fs.readFile(url, "utf-8");
+
+      const splitPath = url.pathname.split(/public\/(.*)\.excalidraw/gm);
+      const slug = splitPath.pop() || splitPath.pop();
+
+      return { params: { slug: slug! }, props: { data: json } };
+    })
+  );
+}
+
+const { slug } = Astro.params;
+const { data } = Astro.props;
+---
+
+<Layout title={config.metadata?.title ?? "Obsidian"}>
+  <div class="w-full max-w-screen-lg py-4">
+    <ExcalidrawViewer client:only="react" slug={slug} data={data} />
+  </div>
+</Layout>
