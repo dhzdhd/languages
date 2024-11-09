@@ -16,7 +16,9 @@
                 "file": "Java/Java Tutorial Series-Baeldung.md",
                 "mode": "source",
                 "source": false
-              }
+              },
+              "icon": "lucide-file",
+              "title": "Java Tutorial Series-Baeldung"
             }
           }
         ]
@@ -39,7 +41,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
             }
           },
           {
@@ -54,7 +58,9 @@
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-search",
+              "title": "Search"
             }
           },
           {
@@ -62,7 +68,9 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {}
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
             }
           }
         ]
@@ -85,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Java/Java Tutorial Series-Baeldung.md",
+                "file": "Go/Go Tour.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -93,7 +101,9 @@
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Go Tour"
             }
           },
           {
@@ -102,10 +112,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Java/Java Tutorial Series-Baeldung.md",
+                "file": "Go/Go Tour.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Go Tour"
             }
           },
           {
@@ -116,7 +128,9 @@
               "state": {
                 "sortOrder": "frequency",
                 "useHierarchy": true
-              }
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
             }
           },
           {
@@ -125,8 +139,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Java/Java Tutorial Series-Baeldung.md"
-              }
+                "file": "Go/Go Tour.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Go Tour"
             }
           },
           {
@@ -138,7 +154,9 @@
                 "sortOrder": "frequency",
                 "showSearch": false,
                 "searchQuery": ""
-              }
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
             }
           }
         ]
@@ -158,20 +176,24 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "849be67305bacd00",
+  "active": "b223e7c80d82cdc5",
   "lastOpenFiles": [
+    "Java/images",
+    "Java/images/Pasted image 20240819195420.png",
+    "Go/Go Tour.md",
+    "Kotlin/Kotlin.md",
+    "Gleam/The-Gleam-Tour.md",
+    "Go",
+    "Java/Java Tutorial Series-Baeldung.md",
     "Scala/Scala-Book.md",
     "Scala/Scala At Light Speed-RTJVM.md",
-    "Java/Java Tutorial Series-Baeldung.md",
     "Java",
     "PureScript/PureScript By Example-Book.md",
     "Haskell/LearnYouAHaskell-Book.md",
     "PureScript",
     "PHP/PHP-Manual.md",
-    "Kotlin/Kotlin.md",
     "Scala",
     "README.md",
-    "Gleam/The-Gleam-Book.md",
     "Gleam",
     "Haskell",
     "Julia.md",
@@ -181,7 +203,6 @@
     "PHP/code/form.php",
     "PHP/code/useful.php",
     "PHP/code/first_page.php",
-    "PHP/code/main.php",
     "PHP.md",
     "PHP/PHP.md",
     "R.md",
