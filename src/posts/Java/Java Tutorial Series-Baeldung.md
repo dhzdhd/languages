@@ -111,6 +111,7 @@ focus.increaseSpeed(5);
 	- private - same class only
 	- default - same package only (default)
 	- protected - same class and subclasses only
+	- ![[Pasted image 20240819195420.png]]
 
 ## Collections
 
