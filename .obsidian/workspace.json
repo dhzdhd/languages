@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Java/Java Tutorial Series-Baeldung.md",
+                "file": "Gleam/The-Gleam-Tour.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Java Tutorial Series-Baeldung"
+              "title": "The-Gleam-Tour"
             }
           }
         ]
@@ -176,15 +176,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b223e7c80d82cdc5",
+  "active": "849be67305bacd00",
   "lastOpenFiles": [
+    "Go/Go Tour.md",
+    "Gleam/The-Gleam-Tour.md",
+    "Java/Java Tutorial Series-Baeldung.md",
     "Java/images",
     "Java/images/Pasted image 20240819195420.png",
-    "Go/Go Tour.md",
     "Kotlin/Kotlin.md",
-    "Gleam/The-Gleam-Tour.md",
     "Go",
-    "Java/Java Tutorial Series-Baeldung.md",
     "Scala/Scala-Book.md",
     "Scala/Scala At Light Speed-RTJVM.md",
     "Java",
@@ -202,7 +202,6 @@
     "PHP/code/action.php",
     "PHP/code/form.php",
     "PHP/code/useful.php",
-    "PHP/code/first_page.php",
     "PHP.md",
     "PHP/PHP.md",
     "R.md",

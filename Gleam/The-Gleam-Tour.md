@@ -25,9 +25,12 @@ let add = 1 + 5
 // Float
 let add = 1.0 +. 1.5  // Different ops for Float due to absence of overloading
 let sci = 1.01e3
+
+let nil = Nil  // Gleam's unit type (returned by functions with no returns)
 ```
 
 - Gleam has no implicit conversions nor does it have a null type
+- Naming is in **PascalCase**
 - Under the hood Strings are UTF-8 encoded binaries and can contain any valid unicode.
 - While written in the code using a capital letter, they are represented at runtime with the atoms `true` and `false`, making them compatible with Elixir and Erlang's booleans.
 - `Int` and `Float` have a different set of operators, `Float` ops are suffixed by a `.`
@@ -53,6 +56,7 @@ let value: Bool = {
 ```
 
 - Variables by default are immutable and can be shadowed.
+- Naming is in **snake_case**
 - Constants should be literals, not function calls.
 - These annotations are optional and while they are checked, they do not aid the type checker. Gleam code is always fully type checked with or without type annotations. (Type inference)
 - Every block in Gleam is an expression. All expressions in the block are executed, and the result of the last expression is returned.
@@ -88,6 +92,7 @@ pub type SB =      // Type alias
 io.println("")
 ```
 
+- Gleam code is organized into units called _modules_
 - [`gleam/io`](https://hexdocs.pm/gleam_stdlib/gleam/io.html) is in a file called `io.gleam` in a directory called `gleam`
 - Unlike functions, Gleam types are commonly imported in an unqualified way.
 - A type follows PascalCase
@@ -120,6 +125,7 @@ case xxs {
 	[[], ..] -> 1  // Only 1st element in empty list
 	[[a, ..], ..] -> 2
 	[1] | [2] -> 2
+	[_, _, ..] -> 3
 	_ -> 10
 }
 
@@ -139,7 +145,7 @@ case x, y {
   _, _ -> "neither is 1"
 }
 
-// Name assignment
+// Name assignment / Pattern aliases
 case xs {
   [[_, ..] as inner_list] -> inner_list
   other -> []
@@ -149,13 +155,14 @@ case xs {
 
 - Case/Pattern matching is exhaustive in Gleam 
 - There is no `if-else` in gleam, `case` is used for every conditional expr.
-- Gleam has no loops, instead recursion is used with inbuilt tail call optimisation
+- Gleam has no loops, instead recursion is used with inbuilt tail call optimization
+- Currently it is not possible to have nested alternative patterns, so the pattern `[1 | 2 | 3]` is not valid
 
 ## Functions
 
 ```rust
 // Defn
-pub fn add(x: Int, y: Int) -> Int {
+fn add(x: Int, y: Int) -> Int {
   x + y
 }
 pub fn twice(f: fn(t) -> t, x: t) -> t {  // Generics + fn types
@@ -163,7 +170,7 @@ pub fn twice(f: fn(t) -> t, x: t) -> t {  // Generics + fn types
 }
 
 // Pipes
-string
+"string"
 |> string_builder.from_string
 |> string_builder.reverse
 |> string_builder.to_string
@@ -178,6 +185,9 @@ pub fn replace(
 }
 replace(in: "A,B,C", each: ",", with: " ")
 replace("A,B,C", ",", " ")  // Can still use positional
+
+// Shorthand labelled syntax
+replace(in:, each:, with:)  // Given there exist vars - in,each,with
 
 // Anon fns / Closures
 let add = fn(x, y) { x + y }  // Normal fn without identifier
@@ -194,6 +204,9 @@ pub fn run() {
 1 |> add(_, 3)
 1 |> add(3)  // Both do the same thing
 
+// Deprecations
+@deprecated("Use new instead")
+fn old() {}
 ```
 
 - Named functions defined using `pub fn` and they are first class.
@@ -247,11 +260,71 @@ pub type Option(inner) {
 }
 ```
 
+- A custom type is defined with the `type` keyword followed by the name of the type and a constructor for each _variant_ of the type.
+- Naming in **PascalCase**
 - Gleam's custom types are named collections of keys and values. They do not have methods.
 - Custom types can be defined with multiple constructors, making them a way of modeling data that can be one of a few different variants which can hold data in them. (Union in F# / Enum in rust)
+- Fields can be accessed only if they are of the same type and name for all variants. Else, a case expr has to be used
 
 ## Advanced features
 
 ```rust
+// Bit arrays
+let xs = <<3>>
+let xs2 = <<3:size(8)>>
+let utfxs = <<"Hello":utf8>>  // UTF8 array
+let concat = <<xs:bits, xs2:bits>>  // Concatenation
 
+// Opaque types
+pub opaque type PositiveInt {
+	PositiveInt(inner: Int)
+}
+pub fn new(i: Int) -> PositiveInt {  // Smart constructor
+  case i >= 0 {
+    True -> PositiveInt(i)
+    False -> PositiveInt(0)
+  }
+}
+
+// Use
+pub fn without_use() {
+  result.try(get_username(), fn(username) {
+    result.try(get_password(), fn(password) {
+      result.map(log_in(username, password), fn(greeting) {
+        greeting <> ", " <> username
+      })
+    })
+  })
+}
+pub fn with_use() {
+  use username <- result.try(get_username())
+  use password <- result.try(get_password())
+  use greeting <- result.map(log_in(username, password))
+  greeting <> ", " <> username
+}
+
+
+// Todo and panic
+pub fn main() {
+	todo as "Not impl yet"
+}
+pub fn a() { todo }
+pub fn b() { panic as "Error" }  // Crashes the program
+
+// Let assert
+let assert [first, ..] = items  // Panics if list is empty
+io.debug(first)
 ```
+
+- Bit arrays
+	- Represent a sequence of 1s and 0s, and are a convenient syntax for constructing and manipulating binary data. (Similar to Erlang bit arrays)
+	- Have multiple options for different representations
+- Opaque types
+	- _Opaque types_ are types where a **custom type itself is public** and can be used by other modules, but the **constructors are private** and can only be used by the **module that defines the type**
+	- This allows for smart constructors wherein a type can only be constructed by a relevant function within the module that contains the type
+- Use
+	- Enables us to write code that uses callbacks in an unindented style
+	- The higher order function being called goes on the right hand side of the `<-` operator. It must take a callback function as its final argument.
+	- The argument names for the callback function go on the left hand side of the `<-` operator. The function can take any number of arguments, including zero.
+	- Remaining code is the body of the callback function
+- `let assert` is similar to `let` in that it is a way to assign values to variables, but it is different in that the pattern can be _partial_. Like panic, it crashes the program and should be sparingly used.
