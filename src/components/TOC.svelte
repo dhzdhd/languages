@@ -6,9 +6,9 @@
 
   export let data: MarkdownHeading[];
   let visible = false;
-  let currentItem = undefined;
+  let currentItem: any = undefined;
 
-  let innerWidth: number;
+  let innerWidth: number = 0;
   let prevWidth = innerWidth;
 
   const setItem = (item: any) => {
@@ -24,8 +24,10 @@
     localStorage.setItem("tocvisibility", JSON.stringify(visible));
   };
 
-  const changeWidth = (_event) => {
-    const isStoredVisible = JSON.parse(localStorage.getItem("tocvisibility"));
+  const changeWidth = (_event: any) => {
+    const isStoredVisible = JSON.parse(
+      localStorage.getItem("tocvisibility") ?? "",
+    );
     if (prevWidth < 1650 && innerWidth >= 1650) {
       visible = true;
     } else if (prevWidth > 1650 && innerWidth <= 1650 && !isStoredVisible) {
@@ -35,7 +37,9 @@
   };
 
   onMount(() => {
-    const isStoredVisible = JSON.parse(localStorage.getItem("tocvisibility"));
+    const isStoredVisible = JSON.parse(
+      localStorage.getItem("tocvisibility") ?? "",
+    );
 
     if (isStoredVisible && innerWidth > 1024) {
       visible = true;
@@ -76,5 +80,5 @@
 <button
   on:click={toggleVisibility}
   class="z-20 fixed bottom-2 right-2 opacity-45 hover:opacity-100"
-  ><PanelRight /></button
->
+  ><PanelRight />
+</button>

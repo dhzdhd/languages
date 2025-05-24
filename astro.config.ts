@@ -14,7 +14,6 @@ import { remarkWikiLink, getPermalinks } from "@portaljs/remark-wiki-link";
 import yaml from "@rollup/plugin-yaml";
 
 import config from "./src/config";
-// FIXME: To use TOML, wait for PR to be merged
 
 export default defineConfig({
   integrations: [

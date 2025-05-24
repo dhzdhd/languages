@@ -4,10 +4,11 @@ import { ModeToggle } from "@/components/ModeToggle";
 import type { TreeItem, SearchData, SearchHeading } from "@/lib/types";
 import Tree from "@components/Tree.svelte";
 import { CommandMenu } from "@components/Search";
-import ForceGraph from "@components/ForceGraph";
-import { ViewTransitions } from "astro:transitions";
+import ForceGraph from "@components/ForceGraph.tsx";
+import { ClientRouter } from "astro:transitions";
 import config from "@/config";
 import Links from "@components/Links.svelte";
+import type { MarkdownInstance } from "astro";
 
 interface Props {
   title: string;
@@ -15,9 +16,12 @@ interface Props {
 
 const { title } = Astro.props;
 
-const posts = await Astro.glob("../posts/**/*.md");
-const compiledPosts = posts.map((val) => {
-  return { url: val.file, content: val.compiledContent() };
+const posts: MarkdownInstance<Record<string, any>>[] = Object.values(
+  import.meta.glob("../posts/**/*.md", { eager: true }),
+);
+// const posts = await Astro.glob("../posts/**/*.md");
+const compiledPosts = posts.map(async (val) => {
+  return { url: val.file, content: await val.compiledContent() };
 });
 
 let result: TreeItem[] = [];
@@ -27,7 +31,7 @@ posts.forEach((post, _index) => {
   const rel_path = post.file.split("src/posts/")[1];
   const sanitized = rel_path.split(".md")[0];
 
-  rel_path.split("/").reduce((r: any, name) => {
+  rel_path.split("/").reduce((r: any, name: any) => {
     if (!r[name]) {
       r[name] = { result: [] };
 
@@ -142,14 +146,14 @@ const searchHeadings: SearchHeading[] = posts.flatMap((post) => {
     />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body class="flex flex-col">
     <header
       class="z-10 flex justify-between items-center px-5 bg-background h-14 w-dvw top-0 fixed border-b-[1px]"
     >
       <a href="/" class="text-2xl">{config.metadata?.title ?? "Obsidian"}</a>
-      <div>
+      <div class="flex gap-2">
         <ForceGraph client:only="react" />
         {config.links && <Links links={config.links} client:load />}
         <CommandMenu
