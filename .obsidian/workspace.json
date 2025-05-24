@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Gleam/The-Gleam-Tour.md",
+                "file": "Racket/The Racket Guide.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "The-Gleam-Tour"
+              "title": "The Racket Guide"
             }
           }
         ]
@@ -40,7 +40,8 @@
             "state": {
               "type": "file-explorer",
               "state": {
-                "sortOrder": "alphabetical"
+                "sortOrder": "alphabetical",
+                "autoReveal": false
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -178,8 +179,10 @@
   },
   "active": "849be67305bacd00",
   "lastOpenFiles": [
-    "Go/Go Tour.md",
     "Gleam/The-Gleam-Tour.md",
+    "Racket/The Racket Guide.md",
+    "Racket",
+    "Go/Go Tour.md",
     "Java/Java Tutorial Series-Baeldung.md",
     "Java/images",
     "Java/images/Pasted image 20240819195420.png",
@@ -201,7 +204,6 @@
     "Lua.md",
     "PHP/code/action.php",
     "PHP/code/form.php",
-    "PHP/code/useful.php",
     "PHP.md",
     "PHP/PHP.md",
     "R.md",
