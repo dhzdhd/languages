@@ -1,0 +1,12 @@
+{
+	"name": "@jade/scripts",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"convert:tldr": "node convert-tldr.ts ../posts/Ink/Drawing/* -f svg -d --output ../posts/Ink/Exports/"
+	},
+	"devDependencies": {
+		"rehype-github-alerts": "4.2.0"
+	}
+}
