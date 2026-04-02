@@ -1,0 +1,167 @@
+import type { LayoutServerLoad } from './$types';
+import config from '../../.config/config';
+import {
+	getSanitizedPath,
+	generateIncrementalSlugs,
+	type PostAndHeadingData
+} from '$lib';
+import type { Config } from '$lib/config';
+import { generateGraphData } from '$lib/graph';
+import {
+	type Bases,
+	type Canvas,
+	type Excalidraw,
+	type Invalid,
+	type Markdown,
+	type Post
+} from '$lib/post';
+import { decompressExcalidrawData } from '$lib/excalidraw';
+import { generateFileProperties, parseBase } from '$lib/bases';
+import { generateMarkdownPost, isFileIndex } from '$lib/markdown';
+import { parseCanvas } from '$lib/canvas';
+import path from 'node:path';
+
+export const prerender = true;
+
+export const load: LayoutServerLoad = async () => {
+	const cfg = config as Config;
+	const files = Object.entries(
+		import.meta.glob<{ default: string }>('../../posts/**', {
+			query: '?raw'
+		})
+	);
+
+	const fileProperties = await generateFileProperties(files);
+
+	const posts: Post[] = await Promise.all(
+		files.map(async ([fileName, file]) => {
+			const content = (await file()).default;
+			const slug = getSanitizedPath(fileName);
+			const incrementalSlugs = generateIncrementalSlugs(slug);
+
+			if (fileName.endsWith('.excalidraw.md')) {
+				const json = decompressExcalidrawData(content);
+
+				return {
+					content: content,
+					data: {
+						kind: 'excalidraw',
+						excalidrawJson: json
+					} satisfies Excalidraw,
+					fileName,
+					slug,
+					incrementalSlugs
+				} satisfies Post;
+			} else if (fileName.endsWith('.md')) {
+				const markdownPostData = await generateMarkdownPost(content);
+				const isIndex = isFileIndex(fileName);
+
+				const calcSlug = isIndex ? path.dirname(slug) : slug;
+				const calcIncrementalSlugs = isIndex
+					? incrementalSlugs.slice(0, incrementalSlugs.length - 2)
+					: incrementalSlugs;
+
+				return {
+					content: markdownPostData.md.toString(),
+					data: {
+						kind: 'markdown',
+						headings: markdownPostData.headings,
+						links: markdownPostData.links,
+						isIndex: isIndex
+					} satisfies Markdown,
+					fileName,
+					slug: calcSlug,
+					incrementalSlugs: calcIncrementalSlugs
+				} satisfies Post;
+			} else if (fileName.endsWith('.excalidraw')) {
+				return {
+					content: content,
+					data: {
+						kind: 'excalidraw',
+						excalidrawJson: content
+					} satisfies Excalidraw,
+					fileName,
+					slug,
+					incrementalSlugs
+				} satisfies Post;
+			} else if (
+				fileName.endsWith('.base.yml') ||
+				fileName.endsWith('.base.yaml') ||
+				fileName.endsWith('.base')
+			) {
+				parseBase(content);
+
+				return {
+					content: content,
+					data: { kind: 'base', fileProperties } satisfies Bases,
+					fileName,
+					slug,
+					incrementalSlugs
+				} satisfies Post;
+			} else if (fileName.endsWith('.canvas')) {
+				const fileMap = await Promise.all(
+					files.map(async ([fileName, file]) => {
+						return {
+							fileName: fileName,
+							content: (await file()).default
+						};
+					})
+				);
+				const canvas = parseCanvas(content, fileMap);
+
+				return {
+					content,
+					data: canvas satisfies Canvas,
+					fileName,
+					slug,
+					incrementalSlugs
+				} satisfies Post;
+			} else {
+				return {
+					content: content,
+					data: { kind: 'invalid' } satisfies Invalid,
+					fileName,
+					slug,
+					incrementalSlugs
+				} satisfies Post;
+			}
+		})
+	);
+
+	const graphData = generateGraphData(posts);
+
+	const postsAndHeadings: PostAndHeadingData[] = [
+		...posts
+			.filter((post) => post.data.kind === 'markdown')
+			.map((post) => {
+				return { title: post.slug, url: `/${post.slug}` };
+			}),
+		...posts
+			.filter((post) => post.data.kind === 'markdown')
+			.flatMap((post) => {
+				const data = post.data as Markdown;
+				return data.headings.map((heading) => {
+					return {
+						title: `${post.slug}${'#'.repeat(heading.level)}${heading.text}`,
+						url: `/${post.slug}${heading.url}`
+					};
+				});
+			})
+	].sort() satisfies PostAndHeadingData[];
+
+	return {
+		posts: posts,
+		files: files
+			.filter(
+				([fileName]) =>
+					!isFileIndex(fileName) &&
+					['.md', '.base', '.canvas'].some((val) =>
+						fileName.endsWith(val)
+					)
+			)
+			.map(([fileName]) => getSanitizedPath(fileName)),
+		config: cfg,
+		graphData: graphData,
+		postsAndHeadings: postsAndHeadings
+	};
+};
