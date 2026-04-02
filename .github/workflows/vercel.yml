@@ -7,7 +7,7 @@ on:
 
 env:
   MD_FOLDER: .
-  DEPLOY_BRANCH: deploy
+  DEPLOY_BRANCH: vercel
 
 permissions:
   contents: write
