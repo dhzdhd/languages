@@ -1,17 +1,6 @@
 # Kotlin
 
-## Hello World
-
-```kotlin
-fun main() {
-	println("Hello World")
-}
-```
-
-- `fun` for declaring functions
-- `main` is the entry point
-
-## Variables
+## Variables & Types
 
 ``` kotlin
 // Readonly (Better)
@@ -24,10 +13,28 @@ hi = 6
 // Declaring without initialising
 val d: Int
 d = 3
+
+// Floating point
+Float a = 1.0f
+Double a = 1.0
+
 ```
 
+- All variables are objects -> member functions can be called and properties can be accessed. Certain types have an optimized internal primitive repr but appear as classes to the user.
 - Top level variables can be defined
 - Kotlin does type inference in var declarations
+- No implicit coercion of types (Float -> Double is not allowed)
+- Types
+	- Integer
+		- Byte (8 bit)
+		- Short (16 bit)
+		- Int (32 bit)
+		- Long (64 bit)
+	- Floating point
+		- Float (32 bit)
+		- Double (64 bit)
+- JVM shenanigans
+	- TODO:
 - ![[./images/kt_types.png]]
 
 ## Strings
