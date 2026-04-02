@@ -1,4 +1,4 @@
-name: Build and Deploy Vercel
+name: Build and Deploy
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
 
 env:
   MD_FOLDER: .
+  DEPLOY_BRANCH: deploy
 
 permissions:
   contents: write
@@ -17,36 +18,39 @@ jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main repo
-        uses: actions/checkout@v4
-
-      - name: Checkout SSG
+      - name: Checkout SSG repo
         uses: actions/checkout@v4
         with:
-          repository: dhzdhd/obsidian-ssg
-          path: ssg
+          repository: dhzdhd/jade
 
-      - name: Cleanup SSG repository
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+        with:
+          path: garden
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Run prerequisite script
+        working-directory: 'scripts'
         run: |
-          find ssg -type f -name "*.md" -exec rm -f {} +
-
-      - name: Move config files
-        run: mv ./.config ./ssg/src/config
+          node prereq.ts ${{ github.workspace }} false
 
       - name: Move markdown files
         run: |
-          rsync -avm --include='*.md' --include='*/' --exclude='*' "${{ env.MD_FOLDER }}" "./ssg/src/posts/"
+          rsync -avm --include='*/' "garden/${{ env.MD_FOLDER }}/" "posts"
 
-      - name: Copy images to public/
+      - name: Copy images to static/
         run: |
-          rsync -avm --include='*.png' --include='*.jpg' --include='*.webp' --include='*.svg' --include='*/' --exclude='*' "${{ env.MD_FOLDER }}" "./ssg/public"
+          rsync -avm --include='*.png' --include='*.jpg' --include='*.jpeg' --include='*.webp' --include='*.svg' --include='*/' --exclude='*' "garden/${{ env.MD_FOLDER }}/" "static"
 
-      - name: Convert relative links
-        run: |
-          python ./ssg/preprocess/relative_links.py ./ssg/src/posts/
+      - name: Remove garden
+        run: rm -rf garden
 
-      - name: Push updated files to vercel branch
+      - name: Push built files to deploy branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          branch: vercel
-          folder: ssg
+          branch: ${{ env.DEPLOY_BRANCH }}
+          folder: .
